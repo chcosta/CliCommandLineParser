@@ -6,7 +6,7 @@ phases:
   - phase: ${{ parameters.agentOs }}
     queue: ${{ parameters.queue }}
     steps:
-    - ${{ if in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI') }}:   
+    - ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
       - task: ms-vseng.MicroBuildTasks.30666190-6959-11e5-9f96-f56098202fef.MicroBuildSigningPlugin@1
         displayName: Install Signing Plugin
         inputs:
@@ -35,7 +35,7 @@ phases:
           BlobFeedKey: $(PB_PublishBlobFeedKey)
           BlobFeedUrl: $(PB_PublishBlobFeedUrl)
 
-    - ${{ if in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI') }}:   
+    - ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:   
       - task: PublishTestResults@1
         displayName: Publish Test Results
         inputs:
