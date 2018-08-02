@@ -24,7 +24,7 @@ phases:
           BlobFeedKey: $(PB_PublishBlobFeedKey)
           BlobFeedUrl: $(PB_PublishBlobFeedUrl)
 
-    - ${{ if eq(parameters.agentOs, 'Linux') }}:
+    - ${{ if in(parameters.agentOs, 'Linux', 'MacOS') }}:
       - script: build/cibuild.sh 
                   --configuration $BuildConfig
                   /p:PB_PublishBlobFeedKey=$BlobFeedKey

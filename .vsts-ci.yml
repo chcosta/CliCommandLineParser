@@ -30,13 +30,29 @@ phases:
             _PublishType: blob
             _SignType: real
 
-${{ if in(variables['Build.Reason'], 'PullRequest') }}:
+- ${{ if in(variables['Build.Reason'], 'PullRequest') }}:
   - template: /eng/build.yml
     parameters:
       agentOs: Linux
       dockerImage: microsoft/dotnet-buildtools-prereqs:ubuntu-14.04-cross-0cd4667-20170319080304
       queue: 
         name: DotNetCore-Linux
+        parallel: 2
+        matrix:
+          Build_Debug:
+            _BuildConfig: Debug
+            _PublishType: none
+            _SignType: test
+          Build_Release:
+            _BuildConfig: Release
+            _PublishType: none
+            _SignType: test
+
+  - template: /eng/build.yml
+    parameters:
+      agentOs: MacOS
+      queue: 
+        name: DotNetCore-Mac
         parallel: 2
         matrix:
           Build_Debug:
