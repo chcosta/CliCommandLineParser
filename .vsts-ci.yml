@@ -2,8 +2,12 @@ trigger:
 - master
 
 variables:
+  teamName: Roslyn-Project-System
   ${{ if in(variables['Build.Reason'], 'PullRequest') }}:
     PB_PublishBlobFeedKey:
+    PB_PublishBlobFeedUrl:
+  ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
+    PB_PublishBlobFeedKey: https://dotnetfeed.blob.core.windows.net/dotnet-core/index.json
     PB_PublishBlobFeedUrl:
 
 phases:
